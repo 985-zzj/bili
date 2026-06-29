@@ -6,7 +6,6 @@
     <title>哔哩哔哩 - 互动抽奖中奖通知</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 自定义基础样式和 B站 主题色 */
         :root {
             --bili-pink: #FB7299;
             --bili-pink-hover: #f85a85;
@@ -31,97 +30,142 @@
             opacity: 1;
             transform: scale(1);
         }
+
+        /* 页面切换淡入效果 */
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
-<body class="text-gray-800 antialiased min-h-screen flex flex-col relative">
+<body class="text-gray-800 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 
-    <!-- 顶部导航栏 -->
-    <header class="bg-white shadow-sm sticky top-0 z-10">
-        <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <!-- Bilibili 风格的简易 Logo 图标 -->
-                <svg class="w-8 h-8 bili-text" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M729.805 316.518H294.195c-76.326 0-138.204 60.109-138.204 134.256v251.352c0 74.148 61.878 134.257 138.204 134.257h435.61c76.326 0 138.204-60.109 138.204-134.257V450.774c0-74.147-61.878-134.256-138.204-134.256zm-314.16 261.354c0 30.607-25.048 55.432-55.946 55.432-30.897 0-55.945-24.825-55.945-55.432v-65.056c0-30.606 25.048-55.431 55.945-55.431 30.898 0 55.946 24.825 55.946 55.431v65.056zm249.522 0c0 30.607-25.048 55.432-55.945 55.432-30.898 0-55.946-24.825-55.946-55.432v-65.056c0-30.606 25.048-55.431 55.946-55.431 30.897 0 55.945 24.825 55.945 55.431v65.056z"></path>
-                    <path d="M698.445 158.336a44.608 44.608 0 00-62.515 5.513L569.172 245.96c-18.067-5.59-37.33-8.625-57.172-8.625-19.843 0-39.105 3.035-57.172 8.625L388.07 163.85a44.609 44.609 0 00-62.515-5.514 43.102 43.102 0 00-5.677 60.725l78.748 93.636c-59.578 30.641-102.43 89.923-107.572 159.208h541.892c-5.143-69.285-47.994-128.567-107.572-159.208l78.748-93.636a43.102 43.102 0 00-5.677-60.725z"></path>
-                </svg>
-                <span class="font-bold text-lg tracking-wide text-gray-700">互动抽奖</span>
+    <!-- 页面一：带有头像的引导页 -->
+    <div id="landingPage" class="min-h-screen flex flex-col items-center justify-center p-6 fade-in relative">
+        <!-- 页面背景装饰 -->
+        <div class="absolute top-0 w-full h-1/3 bili-bg rounded-b-[50px] opacity-10 -z-10"></div>
+        
+        <div class="flex flex-col items-center text-center max-w-sm w-full bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+            <!-- 占位头像，后续可替换 img 的 src 属性 -->
+            <div class="w-28 h-28 rounded-full border-4 bili-border overflow-hidden shadow-lg mb-4 relative">
+                <img src="https://placehold.co/200x200/fb7299/ffffff?text=UP" alt="UP主头像" class="w-full h-full object-cover">
             </div>
-            <div class="text-sm text-gray-500">官方通知</div>
+            
+            <h2 class="text-2xl font-bold text-gray-800 mb-1">小白测评</h2>
+            <p class="text-sm text-gray-400 mb-8 flex items-center justify-center gap-1">
+                <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                bilibili 知名科技UP主
+            </p>
+            
+            <div class="bg-pink-50 text-pink-600 px-4 py-2 rounded-lg text-sm font-medium mb-8 w-full border border-pink-100">
+                您有一份互动抽奖奖品待领取
+            </div>
+            
+            <button id="goToFormBtn" class="bili-bg bili-btn text-white font-bold py-3.5 px-8 rounded-full shadow-md transition-all active:scale-95 flex justify-center items-center text-base w-full">
+                点击填入信息
+            </button>
         </div>
-    </header>
+    </div>
 
-    <main class="flex-1 max-w-md mx-auto w-full p-4 pb-20">
-        <!-- 恭喜中奖横幅卡片 -->
-        <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-5">
-            <div class="bili-bg h-2 w-full"></div>
-            <div class="p-6 text-center">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-pink-100 bili-text mb-4">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
+    <!-- 页面二：信息填写页面 (初始隐藏) -->
+    <div id="formPage" class="hidden flex-col min-h-screen">
+        <!-- 顶部导航栏 -->
+        <header class="bg-white shadow-sm sticky top-0 z-10">
+            <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <!-- 更换为高度还原的 B站 小电视 Logo -->
+                    <svg class="w-8 h-8 bili-text" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M777.514667 131.669333a53.333333 53.333333 0 0 1 75.434666 75.434667L777.258667 282.837333h46.634666A160 160 0 0 1 983.893333 442.837333v341.333334a160 160 0 0 1-160 160H200.106667a160 160 0 0 1-160-160V442.837333a160 160 0 0 1 160-160h46.634666l-75.690666-75.733333a53.333333 53.333333 0 0 1 75.434666-75.434667l113.152 113.152c13.994667 14.037333 34.005333 24.32 54.4 24.32h281.6c20.48 0 40.405333-10.282667 54.4-24.277333l113.152-113.152z m46.378666 257.834667H200.106667a53.333333 53.333333 0 0 0-53.333334 53.333333v341.333334a53.333333 53.333333 0 0 0 53.333334 53.333333h623.786666a53.333333 53.333333 0 0 0 53.333334-53.333333V442.837333a53.333333 53.333333 0 0 0-53.333334-53.333333z m-426.666666 106.666667c29.44 0 53.333333 23.893333 53.333333 53.333333v53.333333a53.333333 53.333333 0 0 1-106.666667 0v-53.333333c0-29.44 23.893333-53.333333 53.333333-53.333333z m266.666666 0c29.44 0 53.333333 23.893333 53.333333 53.333333v53.333333a53.333333 53.333333 0 0 1-106.666666 0v-53.333333c0-29.44 23.893333-53.333333 53.333333-53.333333z"></path>
+                    </svg>
+                    <span class="font-bold text-lg tracking-wide text-gray-700">互动抽奖</span>
                 </div>
-                <h1 class="text-2xl font-bold text-gray-800 mb-2">恭喜您中奖啦！</h1>
-                <p class="text-sm text-gray-500 mb-5 leading-relaxed">
-                    您在UP主 <span class="bili-text font-semibold">@小白测评</span> 的评论区互动抽奖中，被系统幸运抽中！
-                </p>
-                
-                <!-- 奖品信息 -->
-                <div class="bg-gray-50 rounded-xl p-4 flex items-center text-left border border-gray-100">
-                    <div class="w-16 h-16 bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center mr-4 shrink-0 overflow-hidden relative">
-                        <!-- iPhone 图标替代图 -->
-                        <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                <div class="text-sm text-gray-500">官方通知</div>
+            </div>
+        </header>
+
+        <main class="flex-1 max-w-md mx-auto w-full p-4 pb-20 fade-in">
+            <!-- 恭喜中奖横幅卡片 -->
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-5">
+                <div class="bili-bg h-2 w-full"></div>
+                <div class="p-6 text-center">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-pink-100 bili-text mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
                     </div>
+                    <h1 class="text-2xl font-bold text-gray-800 mb-2">恭喜您中奖啦！</h1>
+                    <p class="text-sm text-gray-500 mb-5 leading-relaxed">
+                        您在UP主 <span class="bili-text font-semibold">@小白测评</span> 的评论区互动抽奖中，被系统幸运抽中！
+                    </p>
+                    
+                    <!-- 奖品信息 -->
+                    <div class="bg-gray-50 rounded-xl p-4 flex items-center text-left border border-gray-100">
+                        <div class="w-16 h-16 bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center mr-4 shrink-0 overflow-hidden relative">
+                            <!-- iPhone 图标替代图 -->
+                            <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400 mb-1">获得奖品</div>
+                            <div class="font-bold text-gray-800">iPhone 14 (一台)</div>
+                            <div class="text-xs text-gray-500 mt-1">颜色及存储版本随机发货</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 信息填写表单 -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 border-l-4 bili-border pl-2 leading-none">填写收货信息</h2>
+                <form id="addressForm" class="space-y-4">
+                    
+                    <!-- 收货人 -->
                     <div>
-                        <div class="text-xs text-gray-400 mb-1">获得奖品</div>
-                        <div class="font-bold text-gray-800">iPhone 14 (一台)</div>
-                        <div class="text-xs text-gray-500 mt-1">颜色及存储版本随机发货</div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">收货人姓名 <span class="text-red-500">*</span></label>
+                        <input type="text" id="name" required placeholder="请填写收货人真实姓名" 
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FB7299] focus:bg-white transition-colors text-sm">
                     </div>
-                </div>
+
+                    <!-- 电话号码 -->
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">联系电话 <span class="text-red-500">*</span></label>
+                        <input type="tel" id="phone" required placeholder="请填写11位手机号码" pattern="^1[3-9]\d{9}$"
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FB7299] focus:bg-white transition-colors text-sm">
+                    </div>
+
+                    <!-- 收货地址 -->
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">详细收货地址 <span class="text-red-500">*</span></label>
+                        <textarea id="address" required rows="2" placeholder="省份、城市、区县、街道及详细门牌号" 
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FB7299] focus:bg-white transition-colors text-sm resize-none"></textarea>
+                    </div>
+
+                    <!-- 密码填写 (新增) -->
+                    <div>
+                        <label for="authCode" class="block text-sm font-medium text-gray-700 mb-1">兑奖密码 <span class="text-red-500">*</span></label>
+                        <input type="text" id="authCode" required placeholder="请输入4位数专属密码" maxlength="4" inputmode="numeric"
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FB7299] focus:bg-white transition-colors text-sm">
+                        <!-- 密码错误提示 -->
+                        <p id="pwdError" class="text-red-500 text-xs mt-1.5 hidden ml-1">兑奖密码不正确，请重新输入</p>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" id="submitBtn" class="w-full bili-bg bili-btn text-white font-bold py-3.5 rounded-full shadow-md transition-all active:scale-95 flex justify-center items-center">
+                            确认提交信息
+                        </button>
+                        <p class="text-center text-xs text-gray-400 mt-3">提交后无法修改，请仔细核对收货信息</p>
+                    </div>
+                </form>
             </div>
-        </div>
-
-        <!-- 信息填写表单 -->
-        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
-            <h2 class="text-lg font-bold text-gray-800 mb-4 border-l-4 bili-border pl-2 leading-none">填写收货信息</h2>
-            <form id="addressForm" class="space-y-4">
-                
-                <!-- 收货人 -->
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">收货人姓名 <span class="text-red-500">*</span></label>
-                    <input type="text" id="name" required placeholder="请填写收货人真实姓名" 
-                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FB7299] focus:bg-white transition-colors text-sm">
-                </div>
-
-                <!-- 电话号码 -->
-                <div>
-                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">联系电话 <span class="text-red-500">*</span></label>
-                    <input type="tel" id="phone" required placeholder="请填写11位手机号码" pattern="^1[3-9]\d{9}$"
-                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FB7299] focus:bg-white transition-colors text-sm">
-                </div>
-
-                <!-- 收货地址 -->
-                <div>
-                    <label for="address" class="block text-sm font-medium text-gray-700 mb-1">详细收货地址 <span class="text-red-500">*</span></label>
-                    <textarea id="address" required rows="3" placeholder="省份、城市、区县、街道及详细门牌号" 
-                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FB7299] focus:bg-white transition-colors text-sm resize-none"></textarea>
-                </div>
-
-                <div class="pt-4">
-                    <button type="submit" class="w-full bili-bg bili-btn text-white font-bold py-3.5 rounded-full shadow-md transition-all active:scale-95 flex justify-center items-center">
-                        确认提交信息
-                    </button>
-                    <p class="text-center text-xs text-gray-400 mt-3">提交后无法修改，请仔细核对收货信息</p>
-                </div>
-            </form>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <!-- 成功提示弹窗 (隐藏状态) -->
     <div id="successOverlay" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity opacity-0">
         <div id="successModal" class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl modal-enter">
             <!-- 弹窗顶部背景 -->
             <div class="h-24 bili-bg relative overflow-hidden flex items-center justify-center">
-                <!-- 装饰性光晕 -->
                 <div class="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150 transform -translate-y-1/2"></div>
-                <!-- 成功勾选图标 -->
                 <div class="relative w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-inner">
                     <svg class="w-8 h-8 bili-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
@@ -147,52 +191,106 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // DOM 元素获取
+            const landingPage = document.getElementById('landingPage');
+            const formPage = document.getElementById('formPage');
+            const goToFormBtn = document.getElementById('goToFormBtn');
+            
             const form = document.getElementById('addressForm');
+            const authCodeInput = document.getElementById('authCode');
+            const pwdError = document.getElementById('pwdError');
+            const submitBtn = document.getElementById('submitBtn');
+            
             const overlay = document.getElementById('successOverlay');
             const modal = document.getElementById('successModal');
             const closeBtn = document.getElementById('closeModalBtn');
 
-            // 监听表单提交
-            form.addEventListener('submit', (e) => {
-                e.preventDefault(); // 阻止表单实际刷新页面的提交行为
-                
-                // 简单的防抖处理，如果正在展示就不再触发
-                if (!overlay.classList.contains('hidden')) return;
+            // 1. 从主页跳转到表单页
+            goToFormBtn.addEventListener('click', () => {
+                landingPage.classList.add('hidden');
+                formPage.classList.remove('hidden');
+                formPage.classList.add('flex'); // 确保 flex 布局生效
+                window.scrollTo(0, 0); // 滚动到顶部
+            });
 
-                // 移除隐藏类，显示遮罩
-                overlay.classList.remove('hidden');
+            // 当用户修改密码输入框时，隐藏之前的错误提示
+            authCodeInput.addEventListener('input', () => {
+                pwdError.classList.add('hidden');
+                authCodeInput.classList.remove('border-red-500', 'ring-red-500');
+            });
+
+            // 2. 表单提交逻辑与密码验证
+            form.addEventListener('submit', (e) => {
+                e.preventDefault(); // 阻止实际刷新页面的行为
                 
-                // 触发过渡动画
-                // 使用 setTimeout 确保 DOM 已经更新 hidden 状态后再添加 opacity
+                const pwdValue = authCodeInput.value.trim();
+
+                // 校验密码是否为 6942
+                if (pwdValue !== '6942') {
+                    // 密码错误：显示红字提示，边框变红
+                    pwdError.classList.remove('hidden');
+                    authCodeInput.classList.add('border-red-500', 'focus:ring-red-500');
+                    authCodeInput.classList.remove('focus:ring-[#FB7299]');
+                    return; // 终止执行
+                }
+
+                // 密码正确：显示“验证通过！”UI 变化
+                const originalBtnText = submitBtn.innerText;
+                const originalBtnClass = submitBtn.className;
+                
+                // 暂时修改按钮样式为绿色成功状态
+                submitBtn.innerText = '验证通过！';
+                submitBtn.classList.remove('bili-bg', 'bili-btn');
+                submitBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                submitBtn.disabled = true; // 防止重复点击
+
+                // 延迟 800ms 后弹出成功窗口，让用户能看清“验证通过”
+                setTimeout(() => {
+                    // 恢复按钮初始状态以便下次使用
+                    submitBtn.innerText = originalBtnText;
+                    submitBtn.className = originalBtnClass;
+                    submitBtn.disabled = false;
+                    
+                    showSuccessModal();
+                }, 800);
+            });
+
+            // 3. 显示成功弹窗
+            const showSuccessModal = () => {
+                overlay.classList.remove('hidden');
                 setTimeout(() => {
                     overlay.classList.remove('opacity-0');
                     overlay.classList.add('opacity-100');
                     modal.classList.add('modal-enter-active');
                 }, 10);
-            });
+            };
 
-            // 关闭弹窗的函数
-            const closeModal = () => {
-                // 移除动画激活类
+            // 4. 关闭弹窗并返回第一页
+            const closeModalAndReset = () => {
                 overlay.classList.remove('opacity-100');
                 overlay.classList.add('opacity-0');
                 modal.classList.remove('modal-enter-active');
                 
-                // 等待过渡动画结束后，隐藏元素
                 setTimeout(() => {
                     overlay.classList.add('hidden');
-                    // 可选：提交成功后清空表单
-                    // form.reset(); 
-                }, 300); // 这里的 300 对应 CSS 中 transition 的 0.3s
+                    
+                    // 清空表单，为下一次测试做准备
+                    form.reset(); 
+                    
+                    // 隐藏表单页，显示主页
+                    formPage.classList.add('hidden');
+                    formPage.classList.remove('flex');
+                    landingPage.classList.remove('hidden');
+                    window.scrollTo(0, 0);
+                }, 300); // 等待动画结束
             };
 
-            // 点击“我知道了”按钮关闭弹窗
-            closeBtn.addEventListener('click', closeModal);
+            closeBtn.addEventListener('click', closeModalAndReset);
 
-            // 点击遮罩空白处也可以关闭
+            // 点击遮罩空白处关闭
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
-                    closeModal();
+                    closeModalAndReset();
                 }
             });
         });
